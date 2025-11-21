@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎓 مركز التميز التعليمي</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="نظام إدارة مركز التميز التعليمي - إدارة شاملة للطلاب والمدرسين والمجموعات">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="مركز التميز">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- الصفحة الرئيسية - اختيار السنة -->
+    <div id="home-page" class="page active">
+        <div class="header">
+            <div>
+                <h1>🎓 مركز التميز التعليمي</h1>
+                <p>اختر السنة الدراسية</p>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">🌙</button>
+        </div>
+        
+        <!-- شريط البحث العام -->
+        <div class="search-container">
+            <input type="text" id="global-search" placeholder="🔍 ابحث عن طالب أو مدرس..." class="search-input">
+            <div id="global-search-results" class="search-results"></div>
+        </div>
+        
+        <div class="grades-container">
+            <button class="grade-btn prep" onclick="selectGrade('prep1', 'أولى إعدادي')">
+                <span class="grade-icon">📚</span>
+                <span class="grade-text">أولى إعدادي</span>
+            </button>
+            
+            <button class="grade-btn prep" onclick="selectGrade('prep2', 'ثانية إعدادي')">
+                <span class="grade-icon">📚</span>
+                <span class="grade-text">ثانية إعدادي</span>
+            </button>
+            
+            <button class="grade-btn prep" onclick="selectGrade('prep3', 'ثالثة إعدادي')">
+                <span class="grade-icon">📚</span>
+                <span class="grade-text">ثالثة إعدادي</span>
+            </button>
+            
+            <button class="grade-btn sec" onclick="selectGrade('sec1', 'أولى ثانوي')">
+                <span class="grade-icon">🎯</span>
+                <span class="grade-text">أولى ثانوي</span>
+            </button>
+            
+            <button class="grade-btn sec" onclick="selectGrade('sec2', 'ثانية ثانوي')">
+                <span class="grade-icon">🎯</span>
+                <span class="grade-text">ثانية ثانوي</span>
+            </button>
+            
+            <button class="grade-btn sec" onclick="selectGrade('sec3', 'ثالثة ثانوي')">
+                <span class="grade-icon">🎯</span>
+                <span class="grade-text">ثالثة ثانوي</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- صفحة المواد -->
+    <div id="subjects-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="grade-title"></h2>
+                <p>اختر المادة</p>
+            </div>
+        </div>
+        
+        <!-- شريط البحث في المادة -->
+        <div class="search-container">
+            <input type="text" id="subject-search" placeholder="🔍 ابحث عن طالب في هذه المادة..." class="search-input">
+            <div id="subject-search-results" class="search-results"></div>
+        </div>
+        
+        <button class="add-btn" onclick="showAddSubjectModal()">+ إضافة مادة جديدة</button>
+        
+        <div id="subjects-container" class="subjects-grid"></div>
+    </div>
+
+    <!-- صفحة المدرسين -->
+    <div id="teachers-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="subject-title"></h2>
+                <p id="subject-grade"></p>
+            </div>
+        </div>
+        
+        <button class="add-btn" onclick="showAddTeacherModal()">+ إضافة مدرس</button>
+        
+        <div id="teachers-container" class="list-container"></div>
+    </div>
+
+    <!-- صفحة المجموعات -->
+    <div id="groups-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="teacher-name"></h2>
+                <p id="teacher-subject"></p>
+            </div>
+        </div>
+        
+        <button class="add-btn" onclick="showAddGroupModal()">+ إضافة مجموعة</button>
+        
+        <div id="groups-container" class="list-container"></div>
+    </div>
+
+    <!-- صفحة الطلاب -->
+    <div id="students-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="group-time"></h2>
+                <p id="group-teacher"></p>
+            </div>
+        </div>
+        
+        <!-- شريط البحث في الطلاب -->
+        <div class="search-container">
+            <input type="text" id="students-search" placeholder="🔍 ابحث عن طالب في هذه المجموعة..." class="search-input">
+        </div>
+        
+        <button class="add-btn" onclick="showAddStudentModal()">+ إضافة طالب</button>
+        
+        <button class="whatsapp-stats-btn" onclick="sendTeacherStatistics()">
+            📊 إرسال إحصائيات للمدرس عبر واتساب
+        </button>
+        
+        <div id="students-container" class="list-container"></div>
+    </div>
+
+    <!-- صفحة الطالب -->
+    <div id="student-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="student-name-title"></h2>
+                <p id="student-group-info"></p>
+            </div>
+        </div>
+        
+        <div class="student-profile">
+            <div class="profile-section">
+                <h3>📋 البيانات الأساسية</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">رقم الطالب:</span>
+                        <span id="student-phone" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">رقم ولي الأمر:</span>
+                        <span id="student-parent" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">غياب الشهر:</span>
+                        <span id="student-absences" class="value badge-red"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">حالة الدفع:</span>
+                        <span id="student-payment" class="value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>📊 الدرجات</h3>
+                <button class="add-btn-small" onclick="showAddGradeModal()">+ إضافة درجة</button>
+                <div id="grades-list" class="grades-list"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>💰 الدفع</h3>
+                <div class="payment-info">
+                    <div class="info-item">
+                        <span class="label">الشهر الحالي:</span>
+                        <span id="current-month" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">آخر دفعة:</span>
+                        <span id="last-payment-month" class="value"></span>
+                    </div>
+                </div>
+                <button class="payment-btn" onclick="showPaymentModal()">
+                    💰 تسجيل دفعة جديدة
+                </button>
+            </div>
+
+            <div class="profile-section">
+                <h3>📱 إرسال رسالة واتساب</h3>
+                <button class="whatsapp-btn" onclick="sendWhatsAppMessage()">
+                    📤 إرسال رسالة لولي الأمر
+                </button>
+            </div>
+            
+            <div class="profile-section">
+                <button class="edit-btn" onclick="showEditStudentModal()">
+                    ✏️ تعديل بيانات الطالب
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة مدرس -->
+    <div id="add-teacher-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مدرس جديد</h3>
+            <input type="text" id="teacher-name-input" placeholder="اسم المدرس *" class="input">
+            <input type="tel" id="teacher-phone-input" placeholder="رقم هاتف المدرس *" class="input">
+            <input type="number" id="teacher-price-input" placeholder="سعر الشهر (اختياري)" class="input">
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addTeacher()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة مجموعة -->
+    <div id="add-group-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مجموعة جديدة</h3>
+            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">اختر الأيام والمواعيد:</p>
+            
+            <div class="day-time-selector">
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="السبت" onchange="toggleDayTime(this)">
+                        <span>السبت</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="السبت" disabled>
+                        <select class="day-period-select" data-day="السبت" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الأحد" onchange="toggleDayTime(this)">
+                        <span>الأحد</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الأحد" disabled>
+                        <select class="day-period-select" data-day="الأحد" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الاثنين" onchange="toggleDayTime(this)">
+                        <span>الاثنين</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الاثنين" disabled>
+                        <select class="day-period-select" data-day="الاثنين" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الثلاثاء" onchange="toggleDayTime(this)">
+                        <span>الثلاثاء</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الثلاثاء" disabled>
+                        <select class="day-period-select" data-day="الثلاثاء" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الأربعاء" onchange="toggleDayTime(this)">
+                        <span>الأربعاء</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الأربعاء" disabled>
+                        <select class="day-period-select" data-day="الأربعاء" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الخميس" onchange="toggleDayTime(this)">
+                        <span>الخميس</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الخميس" disabled>
+                        <select class="day-period-select" data-day="الخميس" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الجمعة" onchange="toggleDayTime(this)">
+                        <span>الجمعة</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الجمعة" disabled>
+                        <select class="day-period-select" data-day="الجمعة" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addGroup()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة طالب -->
+    <div id="add-student-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة طالب جديد</h3>
+            <input type="text" id="student-name-input" placeholder="اسم الطالب *" class="input">
+            <input type="tel" id="student-phone-input" placeholder="رقم الطالب (اختياري)" class="input">
+            <input type="tel" id="student-parent-input" placeholder="رقم ولي الأمر (اختياري)" class="input">
+            <textarea id="student-notes-input" placeholder="ملاحظات (اختياري)" class="input" rows="3"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addStudent()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة درجة -->
+    <div id="add-grade-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة درجة</h3>
+            <input type="text" id="exam-name-input" placeholder="اسم الامتحان" class="input">
+            <input type="number" id="exam-grade-input" placeholder="الدرجة" class="input">
+            <input type="number" id="exam-total-input" placeholder="من (الدرجة الكاملة)" class="input">
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addGrade()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تسجيل الدفع -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="payment-modal-title">تسجيل فلوس شهر</h3>
+            <p style="text-align:center;color:#666;margin:15px 0;">سيتم تسجيل المبلغ تلقائياً من سعر المدرس</p>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="recordPayment()">تسجيل</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تعديل المدرس -->
+    <div id="edit-teacher-modal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل بيانات المدرس</h3>
+            <input type="text" id="edit-teacher-name" placeholder="اسم المدرس" class="input">
+            <input type="tel" id="edit-teacher-phone" placeholder="رقم هاتف المدرس" class="input">
+            <input type="number" id="edit-teacher-price" placeholder="سعر الشهر" class="input">
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="saveTeacherEdit()">حفظ</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تعديل الطالب -->
+    <div id="edit-student-modal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل بيانات الطالب</h3>
+            <input type="text" id="edit-student-name" placeholder="اسم الطالب" class="input">
+            <input type="tel" id="edit-student-phone" placeholder="رقم الطالب" class="input">
+            <input type="tel" id="edit-student-parent" placeholder="رقم ولي الأمر" class="input">
+            <textarea id="edit-student-notes" placeholder="ملاحظات" class="input" rows="3"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="saveStudentEdit()">حفظ</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة مادة -->
+    <div id="add-subject-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مادة جديدة</h3>
+            <input type="text" id="subject-name-input" placeholder="اسم المادة" class="input">
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addNewSubject()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
