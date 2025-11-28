@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سنتر التميز التعليمي</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="نظام إدارة سنتر التميز التعليمي - إدارة شاملة للطلاب والمدرسين والمجموعات">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="سنتر التميز">
+    
+    <link rel="stylesheet" href="style.css">
+    <!-- UI Redesign CSS Files -->
+    <link rel="stylesheet" href="ui-redesign-variables.css">
+    <link rel="stylesheet" href="ui-redesign-components.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <button class="nav-home-btn" onclick="goToHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="nav-breadcrumb">
+            <span id="nav-path">الصفحة الرئيسية</span>
+        </div>
+        <button class="theme-toggle-nav" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <img src="https://i.ibb.co/ccfhgSmy/s.png" alt="مركز التميز" class="splash-logo">
+    </div>
+
+    <!-- الصفحة الرئيسية - اختيار السنة -->
+    <div id="home-page" class="page">
+        <div class="header" style="top: 0; padding: 16px 20px;">
+            <div style="flex: 1; text-align: center;">
+                <h1 style="margin: 0;">🎓 سنتر التميز التعليمي</h1>
+                <p style="margin: 5px 0 0 0;">اختر السنة الدراسية</p>
+            </div>
+        </div>
+        
+        <!-- شريط البحث العام -->
+        <div class="search-container">
+            <input type="text" id="global-search" placeholder="🔍 ابحث بالاسم أو الرقم..." class="search-input">
+            <div id="global-search-results" class="search-results"></div>
+        </div>
+        
+        <div class="grades-container">
+            <button class="grade-btn primary" onclick="selectGrade('primary1', 'أولى ابتدائي')">
+                <i class="fas fa-child grade-icon"></i>
+                <span class="grade-text">أولى ابتدائي</span>
+            </button>
+            
+            <button class="grade-btn primary" onclick="selectGrade('primary2', 'ثانية ابتدائي')">
+                <i class="fas fa-child grade-icon"></i>
+                <span class="grade-text">ثانية ابتدائي</span>
+            </button>
+            
+            <button class="grade-btn primary" onclick="selectGrade('primary3', 'ثالثة ابتدائي')">
+                <i class="fas fa-child grade-icon"></i>
+                <span class="grade-text">ثالثة ابتدائي</span>
+            </button>
+            
+            <button class="grade-btn primary" onclick="selectGrade('primary4', 'رابعة ابتدائي')">
+                <i class="fas fa-child grade-icon"></i>
+                <span class="grade-text">رابعة ابتدائي</span>
+            </button>
+            
+            <button class="grade-btn primary" onclick="selectGrade('primary5', 'خامسة ابتدائي')">
+                <i class="fas fa-child grade-icon"></i>
+                <span class="grade-text">خامسة ابتدائي</span>
+            </button>
+            
+            <button class="grade-btn primary" onclick="selectGrade('primary6', 'سادسة ابتدائي')">
+                <i class="fas fa-child grade-icon"></i>
+                <span class="grade-text">سادسة ابتدائي</span>
+            </button>
+            
+            <button class="grade-btn prep" onclick="selectGrade('prep1', 'أولى إعدادي')">
+                <i class="fas fa-book-reader grade-icon"></i>
+                <span class="grade-text">أولى إعدادي</span>
+            </button>
+            
+            <button class="grade-btn prep" onclick="selectGrade('prep2', 'ثانية إعدادي')">
+                <i class="fas fa-book-reader grade-icon"></i>
+                <span class="grade-text">ثانية إعدادي</span>
+            </button>
+            
+            <button class="grade-btn prep" onclick="selectGrade('prep3', 'ثالثة إعدادي')">
+                <i class="fas fa-book-reader grade-icon"></i>
+                <span class="grade-text">ثالثة إعدادي</span>
+            </button>
+            
+            <button class="grade-btn sec" onclick="selectGrade('sec1', 'أولى ثانوي')">
+                <i class="fas fa-graduation-cap grade-icon"></i>
+                <span class="grade-text">أولى ثانوي</span>
+            </button>
+            
+            <button class="grade-btn sec" onclick="selectGrade('sec2', 'ثانية ثانوي')">
+                <i class="fas fa-graduation-cap grade-icon"></i>
+                <span class="grade-text">ثانية ثانوي</span>
+            </button>
+            
+            <button class="grade-btn sec" onclick="selectGrade('sec3', 'ثالثة ثانوي')">
+                <i class="fas fa-graduation-cap grade-icon"></i>
+                <span class="grade-text">ثالثة ثانوي</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- صفحة المواد -->
+    <div id="subjects-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="grade-title"></h2>
+                <p>اختر المادة</p>
+            </div>
+        </div>
+        
+        <!-- شريط البحث في المادة -->
+        <div class="search-container">
+            <input type="text" id="subject-search" placeholder="🔍 ابحث بالاسم أو الرقم..." class="search-input">
+            <div id="subject-search-results" class="search-results"></div>
+        </div>
+        
+        <button class="add-btn" onclick="showAddSubjectModal()">+ إضافة مادة جديدة</button>
+        
+        <div id="subjects-container" class="subjects-grid"></div>
+    </div>
+
+    <!-- صفحة المدرسين -->
+    <div id="teachers-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="subject-title"></h2>
+                <p id="subject-grade"></p>
+            </div>
+        </div>
+        
+        <button class="add-btn" onclick="showAddTeacherModal()">+ إضافة مدرس</button>
+        
+        <div id="teachers-container" class="list-container"></div>
+    </div>
+
+    <!-- صفحة المجموعات -->
+    <div id="groups-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="teacher-name"></h2>
+                <p id="teacher-subject"></p>
+            </div>
+        </div>
+        
+        <button class="add-btn" onclick="showAddGroupModal()">+ إضافة مجموعة</button>
+        
+        <div id="groups-container" class="list-container"></div>
+    </div>
+
+    <!-- صفحة الطلاب -->
+    <div id="students-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="group-time"></h2>
+                <p id="group-teacher"></p>
+            </div>
+        </div>
+        
+        <!-- شريط البحث في الطلاب -->
+        <div class="search-container">
+            <input type="text" id="students-search" placeholder="🔍 ابحث بالاسم أو الرقم..." class="search-input">
+        </div>
+        
+        <!-- إحصائيات اليوم -->
+        <div id="today-stats" class="stats-section"></div>
+        
+        <div class="action-buttons-row">
+            <button class="add-btn" onclick="showAddStudentModal()">
+                <i class="fas fa-user-plus"></i>
+                <span>إضافة طالب</span>
+            </button>
+            <button class="stats-menu-btn" onclick="showStatsMenu()">
+                <i class="fas fa-chart-bar"></i>
+            </button>
+        </div>
+        
+        <div id="students-container" class="list-container"></div>
+    </div>
+
+    <!-- صفحة الطالب -->
+    <div id="student-page" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div>
+                <h2 id="student-name-title"></h2>
+                <p id="student-group-info"></p>
+            </div>
+        </div>
+        
+        <div id="student-profile-container"></div>
+    </div>
+
+    <!-- Modal إضافة مدرس -->
+    <div id="add-teacher-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مدرس جديد</h3>
+            <input type="text" id="teacher-name-input" placeholder="اسم المدرس *" class="input">
+            <input type="tel" id="teacher-phone-input" placeholder="رقم هاتف المدرس *" class="input">
+            <input type="number" id="teacher-price-input" placeholder="سعر الشهر (اختياري)" class="input">
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addTeacher()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة مجموعة -->
+    <div id="add-group-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مجموعة جديدة</h3>
+            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">اختر الأيام والمواعيد:</p>
+            
+            <div class="day-time-selector">
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="السبت" onchange="toggleDayTime(this)">
+                        <span>السبت</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="السبت" disabled>
+                        <select class="day-period-select" data-day="السبت" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الأحد" onchange="toggleDayTime(this)">
+                        <span>الأحد</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الأحد" disabled>
+                        <select class="day-period-select" data-day="الأحد" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الاثنين" onchange="toggleDayTime(this)">
+                        <span>الاثنين</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الاثنين" disabled>
+                        <select class="day-period-select" data-day="الاثنين" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الثلاثاء" onchange="toggleDayTime(this)">
+                        <span>الثلاثاء</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الثلاثاء" disabled>
+                        <select class="day-period-select" data-day="الثلاثاء" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الأربعاء" onchange="toggleDayTime(this)">
+                        <span>الأربعاء</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الأربعاء" disabled>
+                        <select class="day-period-select" data-day="الأربعاء" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الخميس" onchange="toggleDayTime(this)">
+                        <span>الخميس</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الخميس" disabled>
+                        <select class="day-period-select" data-day="الخميس" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="day-item">
+                    <label class="day-checkbox">
+                        <input type="checkbox" value="الجمعة" onchange="toggleDayTime(this)">
+                        <span>الجمعة</span>
+                    </label>
+                    <div class="time-period-group">
+                        <input type="time" class="day-time-input" data-day="الجمعة" disabled>
+                        <select class="day-period-select" data-day="الجمعة" disabled>
+                            <option value="ص">صباحاً</option>
+                            <option value="م">مساءً</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addGroup()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة طالب -->
+    <div id="add-student-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة طالب جديد</h3>
+            <input type="text" id="student-name-input" placeholder="اسم الطالب *" class="input">
+            <input type="tel" id="student-phone-input" placeholder="رقم الطالب (اختياري)" class="input">
+            <input type="tel" id="student-parent-input" placeholder="رقم ولي الأمر (اختياري)" class="input">
+            <textarea id="student-notes-input" placeholder="ملاحظات (اختياري)" class="input" rows="3"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addStudent()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة درجة -->
+    <div id="add-grade-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة درجة</h3>
+            <input type="text" id="exam-name-input" placeholder="اسم الامتحان" class="input">
+            <input type="number" id="exam-grade-input" placeholder="الدرجة" class="input">
+            <input type="number" id="exam-total-input" placeholder="من (الدرجة الكاملة)" class="input">
+            
+            <div class="image-upload-section">
+                <label class="image-upload-label">
+                    📷 صورة الامتحان (اختياري)
+                </label>
+                <div class="image-upload-options">
+                    <input type="file" id="exam-image-input" accept="image/*" class="file-input" onchange="previewExamImage(this)">
+                    <label for="exam-image-input" class="file-input-label">
+                        📁 اختر صورة
+                    </label>
+                    <button type="button" class="camera-btn" onclick="openCamera()">
+                        📸 التقط صورة
+                    </button>
+                </div>
+                <div id="exam-image-preview" class="image-preview"></div>
+                <div id="upload-status" class="upload-status"></div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addGrade()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Camera -->
+    <div id="camera-modal" class="modal">
+        <div class="modal-content modal-wide">
+            <h3>📸 التقاط صورة الامتحان</h3>
+            <div class="camera-container">
+                <video id="camera-video" autoplay playsinline></video>
+                <canvas id="camera-canvas" style="display:none;"></canvas>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="capturePhoto()">📷 التقط الصورة</button>
+                <button class="btn-secondary" onclick="closeCameraModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تسجيل الدفع -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="payment-modal-title">تسجيل فلوس شهر</h3>
+            <p style="text-align:center;color:#666;margin:15px 0;">سيتم تسجيل المبلغ تلقائياً من سعر المدرس</p>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="recordPayment()">تسجيل</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تعديل المدرس -->
+    <div id="edit-teacher-modal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل بيانات المدرس</h3>
+            <input type="text" id="edit-teacher-name" placeholder="اسم المدرس" class="input">
+            <input type="tel" id="edit-teacher-phone" placeholder="رقم هاتف المدرس" class="input">
+            <input type="number" id="edit-teacher-price" placeholder="سعر الشهر" class="input">
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="saveTeacherEdit()">حفظ</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تعديل الطالب -->
+    <div id="edit-student-modal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل بيانات الطالب</h3>
+            <input type="text" id="edit-student-name" placeholder="اسم الطالب" class="input">
+            <input type="tel" id="edit-student-phone" placeholder="رقم الطالب" class="input">
+            <input type="tel" id="edit-student-parent" placeholder="رقم ولي الأمر" class="input">
+            <textarea id="edit-student-notes" placeholder="ملاحظات" class="input" rows="3"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="saveStudentEdit()">حفظ</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal إضافة مادة -->
+    <div id="add-subject-modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مادة جديدة</h3>
+            <input type="text" id="subject-name-input" placeholder="اسم المادة" class="input">
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="addNewSubject()">إضافة</button>
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal جدول الحضور -->
+    <div id="attendance-table-modal" class="modal">
+        <div class="modal-content modal-wide">
+            <h3><i class="fas fa-calendar-check"></i> جدول الحضور والغياب</h3>
+            <div id="attendance-table-container"></div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة المشاركة (Read-Only) -->
+    <div id="shared-student-page" class="page">
+        <div class="header">
+            <div>
+                <h2 id="shared-student-name"></h2>
+                <p id="shared-student-info"></p>
+            </div>
+        </div>
+        
+        <div class="student-profile">
+            <div class="profile-section">
+                <h3>📋 البيانات الأساسية</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">رقم الطالب:</span>
+                        <span id="shared-student-phone" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">رقم ولي الأمر:</span>
+                        <span id="shared-student-parent" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">حالة الدفع:</span>
+                        <span id="shared-student-payment" class="value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>📊 الدرجات</h3>
+                <div id="shared-grades-list" class="grades-list"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>📸 صور الامتحانات</h3>
+                <div id="shared-exam-images" class="exam-images-gallery"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>📅 سجل الحضور والغياب</h3>
+                <div id="shared-attendance-table"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>💰 معلومات الدفع</h3>
+                <div class="payment-info">
+                    <div class="info-item">
+                        <span class="label">الشهر الحالي:</span>
+                        <span id="shared-current-month" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">آخر دفعة:</span>
+                        <span id="shared-last-payment" class="value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shared-footer">
+                <p>🔒 هذه الصفحة للقراءة فقط</p>
+                <p>مركز التميز التعليمي</p>
+            </div>
+        </div>
+    </div>
+    <!-- Image Lightbox (will be created dynamically) -->
+    
+    <!-- Custom Popup -->
+    <div id="custom-popup-overlay" class="custom-popup-overlay">
+        <div class="custom-popup">
+            <div class="custom-popup-title" id="popup-title"></div>
+            <div class="custom-popup-message" id="popup-message"></div>
+            <div class="custom-popup-buttons" id="popup-buttons"></div>
+        </div>
+    </div>
+
+    <!-- Contact Action Sheet -->
+    <div id="contact-action-sheet" class="action-sheet-overlay">
+        <div class="action-sheet">
+            <div class="action-sheet-handle"></div>
+            <h3 class="action-sheet-title">📱 خيارات التواصل</h3>
+            
+            <div class="action-sheet-options">
+                <button class="action-option call" onclick="callParent()">
+                    <span class="action-option-icon">📞</span>
+                    <span>مكالمة ولي الأمر</span>
+                </button>
+                
+                <button class="action-option call" onclick="callStudent()">
+                    <span class="action-option-icon">📱</span>
+                    <span>مكالمة الطالب</span>
+                </button>
+                
+                <button class="action-option whatsapp" onclick="contactParent()">
+                    <span class="action-option-icon">📤</span>
+                    <span>ارسال تقارير الطالب لولي الأمر</span>
+                </button>
+                
+                <button class="action-option whatsapp" onclick="contactStudent()">
+                    <span class="action-option-icon">💬</span>
+                    <span>ارسال للطالب بياناته</span>
+                </button>
+                
+                <button class="action-option copy" onclick="copyShareLink()">
+                    <span class="action-option-icon">📋</span>
+                    <span>نسخ رابط المشاركة</span>
+                </button>
+                
+                <button class="action-option cancel" onclick="closeActionSheet()">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Developer Widget Section -->
+    
+    <!-- 1. Floating Action Button (FAB) -->
+    <div id="fab-container" class="dev-fab-widget">
+        <div class="dev-fab-glow"></div>
+        <button id="fab-button" class="dev-fab-btn" aria-label="View Developer Info">
+            <i class="fas fa-code"></i>
+        </button>
+    </div>
+
+    <!-- 2. Modal Overlay -->
+    <div id="modal-overlay" class="dev-modal-overlay">
+        <div id="modal-backdrop" class="dev-modal-backdrop"></div>
+        
+        <div id="modal-card-wrapper" class="dev-modal-card-wrapper">
+            <div class="dev-modal-card">
+                
+                <!-- Control Buttons -->
+                <div class="dev-modal-controls">
+                    <button id="close-button" class="dev-modal-close" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Background Effects -->
+                <div class="dev-modal-blob dev-modal-blob-1"></div>
+                <div class="dev-modal-blob dev-modal-blob-2"></div>
+                
+                <div class="dev-modal-content">
+                    
+                    <!-- Left Side: Identity -->
+                    <div class="dev-identity">
+                        <div class="dev-avatar-wrapper">
+                            <div class="dev-avatar-ring"></div>
+                            <div class="dev-avatar">
+                                <img src="https://i.ibb.co/PsqC4pcv/Screen-Shot-2025-10-27-at-1-03-26-PM.png" alt="Abdulrahman Ghonaim" />
+                            </div>
+                            <div class="dev-avatar-badge">
+                                <i class="fas fa-sparkles"></i>
+                            </div>
+                        </div>
+
+                        <div class="dev-info">
+                            <div class="dev-badge">Developer & Designer</div>
+                            <h2 class="dev-name">Abdulrahman Ghonaim</h2>
+                            <p class="dev-description">Crafting exceptional digital experiences with a blend of technical expertise and artistic vision.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Social Grid -->
+                    <div class="dev-social-grid">
+                        <a href="https://www.instagram.com/3bdulra7man_8onaim/" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-instagram" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/3bdulra7man8onaim" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-github" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://wa.me/201069625861" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-whatsapp" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61566604275272" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-facebook" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="dev-modal-footer">
+                    <div class="dev-footer-text">
+                        <span>Developed with</span>
+                        <i class="fas fa-heart dev-heart"></i>
+                        <span>by <strong>Abdulrahman Ghonaim</strong></span>
+                    </div>
+                    <a href="https://wa.me/201069625861" target="_blank" rel="noreferrer" class="dev-whatsapp-link">
+                        <span class="dev-status-dot"></span>
+                        <span>WhatsApp: 01069625861</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

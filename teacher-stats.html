@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> إحصائيات المدرس - سنتر التميز</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    
+    <meta name="description" content="إحصائيات المدرس - سنتر التميز التعليمي">
+    <meta name="theme-color" content="#667eea">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding-bottom: 20px;
+        }
+        
+        .stats-header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 25px 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        .stats-header h1 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .stats-header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            line-height: 1.6;
+        }
+        
+        .stats-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .stats-content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .summary-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--card-border);
+        }
+        
+        .summary-card.total {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .summary-card.paid {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .summary-card.unpaid {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+        
+        .summary-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        
+        .summary-label {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        .student-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+        }
+        
+        .student-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow-hover);
+        }
+        
+        .student-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        .student-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .student-info {
+            flex: 1;
+        }
+        
+        .student-name {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        
+        .student-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+            line-height: 1.4;
+        }
+        
+        .student-phone {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .student-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(249, 249, 249, 0.5);
+            border-radius: 10px;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+        
+        .student-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .view-link-btn {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        
+        .view-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .loading-screen, .error-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+        
+        .loading-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-icon">📊</div>
+        <div class="loading-text">جاري تحميل الإحصائيات...</div>
+    </div>
+
+    <!-- Error Screen -->
+    <div id="error-screen" class="error-screen" style="display: none;">
+        <div class="error-icon">❌</div>
+        <div class="error-title">عذراً!</div>
+        <div class="error-message" id="error-message">حدث خطأ في تحميل البيانات</div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <div class="stats-header">
+            <h1 id="teacher-name">المدرس</h1>
+            <p id="teacher-info">المادة - الصف</p>
+            <p id="group-info">المجموعة</p>
+            <span class="stats-badge">📊 إحصائيات شاملة</span>
+        </div>
+        
+        <div class="stats-content">
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card total">
+                    <div class="summary-number" id="total-students">0</div>
+                    <div class="summary-label">إجمالي الطلاب</div>
+                </div>
+                <div class="summary-card paid">
+                    <div class="summary-number" id="paid-students">0</div>
+                    <div class="summary-label">دفعوا</div>
+                </div>
+                <div class="summary-card unpaid">
+                    <div class="summary-number" id="unpaid-students">0</div>
+                    <div class="summary-label">لم يدفعوا</div>
+                </div>
+            </div>
+
+            <!-- Students List -->
+            <div class="profile-section">
+                <h3>👥 قائمة الطلاب</h3>
+                <div id="students-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbdpK9bcBbupivLB9nmF7TA2ATuliMgvw",
+            authDomain: "altamayoz-d343a.firebaseapp.com",
+            projectId: "altamayoz-d343a",
+            storageBucket: "altamayoz-d343a.firebasestorage.app",
+            messagingSenderId: "448356728450",
+            appId: "1:448356728450:web:80433ab12f01d812823e9b",
+            measurementId: "G-N8P5LKCML9"
+        };
+
+        let db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+            showError('خطأ في الاتصال بقاعدة البيانات');
+        }
+
+        function getCurrentMonth() {
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 
+                            'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            return months[new Date().getMonth()];
+        }
+
+        function showError(message) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-message').textContent = message;
+        }
+
+        function loadTeacherStats(groupId) {
+            if (!db) {
+                showError('خطأ في الاتصال بقاعدة البيانات');
+                return;
+            }
+
+            // Get group info
+            db.collection('groups').doc(groupId).get().then(groupDoc => {
+                if (!groupDoc.exists) {
+                    showError('المجموعة غير موجودة');
+                    return;
+                }
+
+                const group = groupDoc.data();
+                
+                // Get teacher info
+                return db.collection('teachers').doc(group.teacherId).get().then(teacherDoc => {
+                    if (!teacherDoc.exists) {
+                        showError('المدرس غير موجود');
+                        return;
+                    }
+
+                    const teacher = teacherDoc.data();
+                    
+                    // Set header info
+                    document.getElementById('teacher-name').textContent = teacher.name;
+                    document.getElementById('teacher-info').textContent = `${group.subject || ''} - ${group.gradeName || ''}`;
+                    document.getElementById('group-info').textContent = group.daysString || group.day || '';
+                    
+                    // Load students
+                    loadStudents(groupId);
+                });
+            }).catch(error => {
+                console.error('Error:', error);
+                showError('حدث خطأ في تحميل البيانات: ' + error.message);
+            });
+        }
+
+        function loadStudents(groupId) {
+            const currentMonth = getCurrentMonth();
+            const container = document.getElementById('students-list');
+            
+            db.collection('students')
+                .where('groupId', '==', groupId)
+                .onSnapshot(snapshot => {
+                    if (snapshot.empty) {
+                        container.innerHTML = '<div style="text-align:center;padding:40px;color:#666;">لا يوجد طلاب في هذه المجموعة</div>';
+                        document.getElementById('loading-screen').style.display = 'none';
+                        document.getElementById('main-content').style.display = 'block';
+                        return;
+                    }
+
+                    const students = [];
+                    const studentIds = [];
+                    
+                    snapshot.forEach(doc => {
+                        const student = doc.data();
+                        students.push({
+                            id: doc.id,
+                            ...student,
+                            isPaid: student.lastPaymentMonth === currentMonth
+                        });
+                        studentIds.push(doc.id);
+                    });
+
+                    // Get attendance for all students
+                    db.collection('attendance')
+                        .where('groupId', '==', groupId)
+                        .get()
+                        .then(attSnapshot => {
+                            const attendanceMap = {};
+                            
+                            attSnapshot.forEach(doc => {
+                                const att = doc.data();
+                                if (!attendanceMap[att.studentId]) {
+                                    attendanceMap[att.studentId] = { present: 0, absent: 0 };
+                                }
+                                if (att.present) {
+                                    attendanceMap[att.studentId].present++;
+                                } else {
+                                    attendanceMap[att.studentId].absent++;
+                                }
+                            });
+
+                            // Update summary
+                            const paidCount = students.filter(s => s.isPaid).length;
+                            document.getElementById('total-students').textContent = students.length;
+                            document.getElementById('paid-students').textContent = paidCount;
+                            document.getElementById('unpaid-students').textContent = students.length - paidCount;
+
+                            // Sort students by number
+                            students.sort((a, b) => (a.studentNumber || 0) - (b.studentNumber || 0));
+
+                            // Display students
+                            container.innerHTML = '';
+                            students.forEach(student => {
+                                const attendance = attendanceMap[student.id] || { present: 0, absent: 0 };
+                                const total = attendance.present + attendance.absent;
+                                const attendanceRate = total > 0 ? ((attendance.present / total) * 100).toFixed(0) : 0;
+                                
+                                const baseUrl = window.location.origin;
+                                const shareUrl = `${baseUrl}/share.html?id=${student.id}`;
+                                
+                                const card = document.createElement('div');
+                                card.className = 'student-card';
+                                card.innerHTML = `
+                                    <div class="student-header">
+                                        <div class="student-avatar">${student.name.charAt(0)}</div>
+                                        <div class="student-info">
+                                            <div class="student-name">
+                                                ${student.studentNumber ? `<span class="student-number">#${student.studentNumber}</span>` : ''}
+                                                ${student.name}
+                                            </div>
+                                            <div class="student-phone">
+                                                ${student.phone ? `📱 ${student.phone}` : ''}
+                                                ${student.parentPhone ? ` | 👤 ${student.parentPhone}` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="student-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-value" style="color: #11998e;">${attendance.present}</div>
+                                            <div class="stat-label">حاضر</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-value" style="color: #eb3349;">${attendance.absent}</div>
+                                            <div class="stat-label">غائب</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-value" style="color: #667eea;">${attendanceRate}%</div>
+                                            <div class="stat-label">نسبة الحضور</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item" style="margin-bottom: 15px;">
+                                        <span class="label">حالة الدفع:</span>
+                                        <span class="${student.isPaid ? 'badge-green' : 'badge-red'}">
+                                            ${student.isPaid ? 'مدفوع ✓' : 'لم يدفع ✗'}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="student-actions">
+                                        <a href="${shareUrl}" target="_blank" class="view-link-btn">
+                                            🔗 عرض بيانات الطالب
+                                        </a>
+                                    </div>
+                                `;
+                                container.appendChild(card);
+                            });
+
+                            // Show content
+                            document.getElementById('loading-screen').style.display = 'none';
+                            document.getElementById('main-content').style.display = 'block';
+                        });
+                }, error => {
+                    console.error('Error:', error);
+                    showError('حدث خطأ في تحميل البيانات: ' + error.message);
+                });
+        }
+
+        // Get group ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const groupId = urlParams.get('group');
+
+        if (!groupId) {
+            showError('رابط غير صحيح. يرجى التأكد من الرابط المرسل.');
+        } else {
+            loadTeacherStats(groupId);
+        }
+    </script>
+</body>
+</html>

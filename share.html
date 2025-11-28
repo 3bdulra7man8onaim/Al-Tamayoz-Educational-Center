@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> بيانات الطالب - سنتر التميز</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="بيانات الطالب - سنتر التميز التعليمي">
+    <meta name="theme-color" content="#667eea">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Override for share page */
+        body {
+            padding-bottom: 20px;
+        }
+        
+        .share-header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 25px 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+            position: relative;
+        }
+        
+        .share-theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 18px;
+        }
+        
+        .share-theme-toggle:hover {
+            background: var(--card-border);
+            transform: scale(1.1);
+        }
+        
+        .share-header h1 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .share-header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            line-height: 1.6;
+        }
+        
+        .share-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .live-badge {
+            display: inline-block;
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        .live-badge::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #f44336;
+            border-radius: 50%;
+            margin-left: 6px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .share-content {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .loading-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+        
+        .loading-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .loading-text {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        
+        .error-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .error-title {
+            font-size: 22px;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .error-message {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .share-footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 30px;
+            border-top: 1px solid var(--card-border);
+        }
+        
+        .share-footer p {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        
+        .share-footer .lock-icon {
+            font-size: 20px;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        
+        .share-footer .brand {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 16px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+        
+        /* Developer Footer */
+        .developer-footer {
+            background: transparent;
+            margin-top: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .developer-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .developer-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 15px;
+            padding: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-sigil {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .logo-sigil img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name-block {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .role {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+
+        .fullname {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .socials {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .socials a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .social-instagram {
+            background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-github {
+            background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
+        }
+
+        .social-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        }
+
+        .social-facebook {
+            background: linear-gradient(135deg, #1877f2 0%, #0c63d4 100%);
+        }
+
+        .socials a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .dev-footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+        }
+
+        .developed {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .developed strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 600px) {
+            .brand-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .socials {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .dev-footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-icon">🎓</div>
+        <div class="loading-text">جاري تحميل البيانات...</div>
+    </div>
+
+    <!-- Error Screen -->
+    <div id="error-screen" class="error-screen" style="display: none;">
+        <div class="error-icon">❌</div>
+        <div class="error-title">عذراً!</div>
+        <div class="error-message" id="error-message">حدث خطأ في تحميل البيانات</div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <div class="share-header">
+            <button class="share-theme-toggle" onclick="toggleTheme()" id="share-theme-btn">
+                <i class="fas fa-moon"></i>
+            </button>
+            <h1 id="student-name">اسم الطالب</h1>
+            <p id="student-info">المادة - الصف</p>
+            <span class="share-badge">🔒 للقراءة فقط</span>
+            <div style="margin-top: 10px;">
+                <span class="live-badge">🔴 تحديث مباشر</span>
+            </div>
+        </div>
+        
+        <div class="share-content">
+            <div class="profile-section">
+                <h3>📋 البيانات الأساسية</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">رقم التسلسل:</span>
+                        <span id="student-number" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">رقم الطالب:</span>
+                        <span id="student-phone" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">رقم ولي الأمر:</span>
+                        <span id="student-parent" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">حالة الدفع:</span>
+                        <span id="student-payment" class="value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>📊 الدرجات</h3>
+                <div id="grades-list" class="grades-list"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>📸 صور الامتحانات</h3>
+                <div id="exam-images" class="exam-images-gallery"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>📅 سجل الحضور والغياب</h3>
+                <div id="attendance-summary" style="margin-bottom: 15px;"></div>
+                <div id="attendance-table"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>💰 معلومات الدفع</h3>
+                <div class="payment-info">
+                    <div class="info-item">
+                        <span class="label">الشهر الحالي:</span>
+                        <span id="current-month" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">آخر دفعة:</span>
+                        <span id="last-payment" class="value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="share-footer">
+                <div class="lock-icon">🔒</div>
+                <p>هذه الصفحة للقراءة فقط</p>
+                <p>لا يمكن التعديل أو الحذف</p>
+                <p class="brand">مركز التميز التعليمي</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Widget Section -->
+    
+    <!-- 1. Floating Action Button (FAB) -->
+    <div id="fab-container-share" class="dev-fab-widget">
+        <div class="dev-fab-glow"></div>
+        <button id="fab-button-share" class="dev-fab-btn" aria-label="View Developer Info">
+            <i class="fas fa-code"></i>
+        </button>
+    </div>
+
+    <!-- 2. Modal Overlay -->
+    <div id="modal-overlay-share" class="dev-modal-overlay">
+        <div id="modal-backdrop-share" class="dev-modal-backdrop"></div>
+        
+        <div id="modal-card-wrapper-share" class="dev-modal-card-wrapper">
+            <div class="dev-modal-card">
+                
+                <!-- Control Buttons -->
+                <div class="dev-modal-controls">
+                    <button id="close-button-share" class="dev-modal-close" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Background Effects -->
+                <div class="dev-modal-blob dev-modal-blob-1"></div>
+                <div class="dev-modal-blob dev-modal-blob-2"></div>
+                
+                <div class="dev-modal-content">
+                    
+                    <!-- Left Side: Identity -->
+                    <div class="dev-identity">
+                        <div class="dev-avatar-wrapper">
+                            <div class="dev-avatar-ring"></div>
+                            <div class="dev-avatar">
+                                <img src="https://i.ibb.co/PsqC4pcv/Screen-Shot-2025-10-27-at-1-03-26-PM.png" alt="Abdulrahman Ghonaim" />
+                            </div>
+                            <div class="dev-avatar-badge">
+                                <i class="fas fa-sparkles"></i>
+                            </div>
+                        </div>
+
+                        <div class="dev-info">
+                            <div class="dev-badge">Developer & Designer</div>
+                            <h2 class="dev-name">Abdulrahman Ghonaim</h2>
+                            <p class="dev-description">Crafting exceptional digital experiences with a blend of technical expertise and artistic vision.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Social Grid -->
+                    <div class="dev-social-grid">
+                        <a href="https://www.instagram.com/3bdulra7man_8onaim/" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-instagram" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/3bdulra7man8onaim" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-github" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://wa.me/201069625861" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-whatsapp" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61566604275272" target="_blank" rel="noopener noreferrer" class="dev-social-btn dev-social-facebook" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="dev-modal-footer">
+                    <div class="dev-footer-text">
+                        <span>Developed with</span>
+                        <i class="fas fa-heart dev-heart"></i>
+                        <span>by <strong>Abdulrahman Ghonaim</strong></span>
+                    </div>
+                    <a href="https://wa.me/201069625861" target="_blank" rel="noreferrer" class="dev-whatsapp-link">
+                        <span class="dev-status-dot"></span>
+                        <span>WhatsApp: 01069625861</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Developer Widget Logic for Share Page
+        (function() {
+            const fabContainer = document.getElementById('fab-container-share');
+            const fabButton = document.getElementById('fab-button-share');
+            const modalOverlay = document.getElementById('modal-overlay-share');
+            const modalBackdrop = document.getElementById('modal-backdrop-share');
+            const closeButton = document.getElementById('close-button-share');
+
+            function openModal() {
+                fabContainer.classList.add('hidden');
+                modalOverlay.classList.add('active');
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                setTimeout(() => {
+                    fabContainer.classList.remove('hidden');
+                }, 500);
+            }
+
+            if (fabButton) fabButton.addEventListener('click', openModal);
+            if (closeButton) closeButton.addEventListener('click', closeModal);
+            if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        })();
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbdpK9bcBbupivLB9nmF7TA2ATuliMgvw",
+            authDomain: "altamayoz-d343a.firebaseapp.com",
+            projectId: "altamayoz-d343a",
+            storageBucket: "altamayoz-d343a.firebasestorage.app",
+            messagingSenderId: "448356728450",
+            appId: "1:448356728450:web:80433ab12f01d812823e9b",
+            measurementId: "G-N8P5LKCML9"
+        };
+
+        // Initialize Firebase
+        let db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+            showError('خطأ في الاتصال بقاعدة البيانات');
+        }
+
+        // Get current month
+        function getCurrentMonth() {
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 
+                            'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            return months[new Date().getMonth()];
+        }
+
+        // Show error
+        function showError(message) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-message').textContent = message;
+        }
+
+        // Load student data with real-time updates
+        function loadStudentData(studentId) {
+            if (!db) {
+                showError('خطأ في الاتصال بقاعدة البيانات');
+                return;
+            }
+
+            // Real-time listener for student data
+            db.collection('students').doc(studentId).onSnapshot(doc => {
+                if (!doc.exists) {
+                    showError('الطالب غير موجود أو تم حذفه');
+                    return;
+                }
+
+                const student = doc.data();
+                
+                // Set basic info
+                document.getElementById('student-name').textContent = student.name;
+                document.getElementById('student-info').textContent = `${student.subject || ''} - ${student.gradeName || ''}`;
+                document.getElementById('student-number').textContent = student.studentNumber ? `#${student.studentNumber}` : 'غير محدد';
+                document.getElementById('student-phone').textContent = student.phone || 'غير محدد';
+                document.getElementById('student-parent').textContent = student.parentPhone || 'غير محدد';
+                
+                // Payment status
+                const currentMonth = getCurrentMonth();
+                document.getElementById('current-month').textContent = currentMonth;
+                document.getElementById('last-payment').textContent = student.lastPaymentMonth || 'لم يدفع بعد';
+                
+                const paymentStatus = document.getElementById('student-payment');
+                if (student.lastPaymentMonth === currentMonth) {
+                    paymentStatus.textContent = 'مدفوع';
+                    paymentStatus.className = 'value badge-green';
+                } else {
+                    paymentStatus.textContent = 'لم يدفع';
+                    paymentStatus.className = 'value badge-red';
+                }
+                
+                // Show content on first load
+                if (document.getElementById('loading-screen').style.display !== 'none') {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                }
+            }, error => {
+                console.error('Error loading student:', error);
+                showError('حدث خطأ في تحميل البيانات: ' + error.message);
+            });
+            
+            // Load grades with real-time updates
+            loadGrades(studentId);
+            
+            // Load exam images with real-time updates
+            loadExamImages(studentId);
+            
+            // Load attendance with real-time updates
+            loadAttendance(studentId);
+        }
+
+        // Load grades with real-time updates
+        function loadGrades(studentId) {
+            const container = document.getElementById('grades-list');
+            container.innerHTML = '<div style="text-align:center;color:#666;padding:15px;">جاري التحميل...</div>';
+            
+            // Real-time listener for grades (without orderBy to avoid index requirement)
+            db.collection('grades')
+                .where('studentId', '==', studentId)
+                .onSnapshot(snapshot => {
+                    container.innerHTML = '';
+                    
+                    if (snapshot.empty) {
+                        container.innerHTML = '<div style="text-align:center;color:#666;padding:20px;">لا توجد درجات بعد</div>';
+                        return;
+                    }
+                    
+                    // Sort manually by createdAt
+                    const grades = [];
+                    snapshot.forEach(doc => {
+                        grades.push({ id: doc.id, data: doc.data() });
+                    });
+                    
+                    grades.sort((a, b) => {
+                        const timeA = a.data.createdAt ? a.data.createdAt.toMillis() : 0;
+                        const timeB = b.data.createdAt ? b.data.createdAt.toMillis() : 0;
+                        return timeB - timeA; // Descending order
+                    });
+                    
+                    grades.forEach(item => {
+                        const grade = item.data;
+                        const div = document.createElement('div');
+                        div.className = 'grade-item';
+                        div.innerHTML = `
+                            <div class="grade-name">${grade.examName}</div>
+                            <div class="grade-score">${grade.score}/${grade.total}</div>
+                        `;
+                        container.appendChild(div);
+                    });
+                }, error => {
+                    console.error('Error loading grades:', error);
+                    container.innerHTML = '<div style="text-align:center;color:#f44336;">خطأ في التحميل: ' + error.message + '</div>';
+                });
+        }
+
+        // Load exam images with real-time updates
+        function loadExamImages(studentId) {
+            const container = document.getElementById('exam-images');
+            container.innerHTML = '<div style="text-align:center;color:#666;padding:15px;">جاري التحميل...</div>';
+            
+            // Real-time listener for exam images (without orderBy to avoid index requirement)
+            db.collection('grades')
+                .where('studentId', '==', studentId)
+                .onSnapshot(snapshot => {
+                    container.innerHTML = '';
+                    
+                    // Filter and sort grades with images
+                    const gradesWithImages = [];
+                    snapshot.forEach(doc => {
+                        const grade = doc.data();
+                        if (grade.imageUrl) {
+                            gradesWithImages.push(grade);
+                        }
+                    });
+                    
+                    if (gradesWithImages.length === 0) {
+                        container.className = 'exam-images-gallery empty';
+                        container.innerHTML = '📷 لا توجد صور امتحانات';
+                        return;
+                    }
+                    
+                    // Sort manually by createdAt
+                    gradesWithImages.sort((a, b) => {
+                        const timeA = a.createdAt ? a.createdAt.toMillis() : 0;
+                        const timeB = b.createdAt ? b.createdAt.toMillis() : 0;
+                        return timeB - timeA; // Descending order
+                    });
+                    
+                    container.className = 'exam-images-gallery';
+                    
+                    gradesWithImages.forEach(grade => {
+                        const card = document.createElement('div');
+                        card.className = 'exam-image-card';
+                        card.innerHTML = `
+                            <img src="${grade.imageUrl}" alt="${grade.examName}" onclick="openImage('${grade.imageUrl}')">
+                            <div class="exam-image-info">
+                                <div class="exam-image-name">${grade.examName}</div>
+                                <div class="exam-image-score">${grade.score}/${grade.total}</div>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                }, error => {
+                    console.error('Error loading exam images:', error);
+                    container.innerHTML = '<div style="text-align:center;color:#f44336;">خطأ في التحميل: ' + error.message + '</div>';
+                });
+        }
+
+        // Load attendance with real-time updates
+        function loadAttendance(studentId) {
+            const summaryDiv = document.getElementById('attendance-summary');
+            const tableDiv = document.getElementById('attendance-table');
+            
+            tableDiv.innerHTML = '<div style="text-align:center;color:#666;padding:15px;">جاري التحميل...</div>';
+            
+            // Real-time listener for attendance
+            db.collection('attendance')
+                .where('studentId', '==', studentId)
+                .orderBy('timestamp', 'desc')
+                .limit(30)
+                .onSnapshot(snapshot => {
+                    if (snapshot.empty) {
+                        tableDiv.innerHTML = '<div style="text-align:center;color:#666;padding:20px;">لا يوجد سجل حضور</div>';
+                        summaryDiv.innerHTML = '';
+                        return;
+                    }
+                    
+                    // Calculate summary
+                    let presentCount = 0;
+                    let absentCount = 0;
+                    
+                    snapshot.forEach(doc => {
+                        const record = doc.data();
+                        if (record.present) presentCount++;
+                        else absentCount++;
+                    });
+                    
+                    const total = presentCount + absentCount;
+                    const attendanceRate = ((presentCount / total) * 100).toFixed(1);
+                    
+                    // Show summary
+                    summaryDiv.innerHTML = `
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+                            <div style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 15px; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: bold;">${presentCount}</div>
+                                <div style="font-size: 12px; opacity: 0.9;">حاضر</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; padding: 15px; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: bold;">${absentCount}</div>
+                                <div style="font-size: 12px; opacity: 0.9;">غائب</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: bold;">${attendanceRate}%</div>
+                                <div style="font-size: 12px; opacity: 0.9;">نسبة الحضور</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Show table
+                    let tableHTML = `
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>اليوم</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    snapshot.forEach(doc => {
+                        const record = doc.data();
+                        const statusClass = record.present ? 'status-present' : 'status-absent';
+                        const statusText = record.present ? 'حاضر' : 'غائب';
+                        const statusIcon = record.present ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
+                        
+                        tableHTML += `
+                            <tr>
+                                <td>${record.date || 'غير محدد'}</td>
+                                <td>${record.dayName || '-'}</td>
+                                <td class="${statusClass}">${statusIcon} ${statusText}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                    
+                    tableDiv.innerHTML = tableHTML;
+                }, error => {
+                    console.error('Error loading attendance:', error);
+                    tableDiv.innerHTML = '<div style="text-align:center;color:#f44336;">خطأ في التحميل</div>';
+                });
+        }
+
+        // Open image in new tab
+        function openImage(url) {
+            window.open(url, '_blank');
+        }
+
+        // Get student ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('id');
+
+        if (!studentId) {
+            showError('رابط غير صحيح. يرجى التأكد من الرابط المرسل.');
+        } else {
+            loadStudentData(studentId);
+        }
+        
+        // Theme functions
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme-preference');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(prefersDark ? 'dark' : 'light');
+            }
+            
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme-preference')) {
+                    applyTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+        }
+        
+        function applyTheme(theme) {
+            const body = document.body;
+            const themeBtn = document.getElementById('share-theme-btn');
+            
+            if (theme === 'dark') {
+                body.classList.add('dark-theme');
+                if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                body.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme-preference', newTheme);
+            applyTheme(newTheme);
+        }
+        
+
+        
+        // Close developer card when clicking outside
+        document.addEventListener('click', (e) => {
+            const devContainer = document.getElementById('devContainer');
+            if (devContainer && !devContainer.contains(e.target) && devContainer.classList.contains('active')) {
+                devContainer.classList.remove('active');
+            }
+        });
+        
+        // Initialize theme on load
+        initializeTheme();
+    </script>
+</body>
+</html>
+""
